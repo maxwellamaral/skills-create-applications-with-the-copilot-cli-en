@@ -58,7 +58,8 @@ function divide(a, b) {
   return a / b;
 }
 
-// CLI entry point
+// CLI entry point — only runs when executed directly (not when imported as a module)
+if (require.main === module) {
 const [, , operation, arg1, arg2] = process.argv;
 
 const a = parseFloat(arg1);
@@ -95,5 +96,6 @@ try {
   console.error(`Error: ${err.message}`);
   process.exit(1);
 }
+} // end require.main === module
 
 module.exports = { add, subtract, multiply, divide };
