@@ -2,16 +2,22 @@
  * CLI Calculator - Node.js
  *
  * Supported operations:
- *  - add      : Addition (a + b)
- *  - subtract : Subtraction (a - b)
- *  - multiply : Multiplication (a * b)
- *  - divide   : Division (a / b) — with division-by-zero handling
+ *  - add        : Addition (a + b)
+ *  - subtract   : Subtraction (a - b)
+ *  - multiply   : Multiplication (a * b)
+ *  - divide     : Division (a / b) — with division-by-zero handling
+ *  - modulo     : Remainder of division (a % b)
+ *  - power      : Exponentiation (base ** exponent)
+ *  - squareRoot : Square root of n — with negative-number handling
  *
  * Usage:
- *   node calculator.js add 5 3       # Output: 8
- *   node calculator.js subtract 9 4  # Output: 5
- *   node calculator.js multiply 6 7  # Output: 42
- *   node calculator.js divide 10 2   # Output: 5
+ *   node calculator.js add 5 3            # Output: 8
+ *   node calculator.js subtract 9 4       # Output: 5
+ *   node calculator.js multiply 6 7       # Output: 42
+ *   node calculator.js divide 10 2        # Output: 5
+ *   node calculator.js modulo 10 3        # Output: 1
+ *   node calculator.js power 2 8          # Output: 256
+ *   node calculator.js squareRoot 9       # Output: 3
  */
 
 /**
@@ -58,6 +64,39 @@ function divide(a, b) {
   return a / b;
 }
 
+/**
+ * Returns the remainder of dividing a by b.
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
+function modulo(a, b) {
+  return a % b;
+}
+
+/**
+ * Raises base to the given exponent.
+ * @param {number} base
+ * @param {number} exponent
+ * @returns {number}
+ */
+function power(base, exponent) {
+  return base ** exponent;
+}
+
+/**
+ * Returns the square root of n.
+ * Throws an error if n is negative.
+ * @param {number} n
+ * @returns {number}
+ */
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error("Square root of a negative number is not allowed.");
+  }
+  return Math.sqrt(n);
+}
+
 // CLI entry point — only runs when executed directly (not when imported as a module)
 if (require.main === module) {
 const [, , operation, arg1, arg2] = process.argv;
@@ -65,8 +104,11 @@ const [, , operation, arg1, arg2] = process.argv;
 const a = parseFloat(arg1);
 const b = parseFloat(arg2);
 
-if (!operation || isNaN(a) || isNaN(b)) {
-  console.error("Usage: node calculator.js <add|subtract|multiply|divide> <a> <b>");
+const singleArgOps = ["squareRoot"];
+const needsTwoArgs = !singleArgOps.includes(operation);
+
+if (!operation || isNaN(a) || (needsTwoArgs && isNaN(b))) {
+  console.error("Usage: node calculator.js <add|subtract|multiply|divide|modulo|power|squareRoot> <a> [b]");
   process.exit(1);
 }
 
@@ -86,8 +128,17 @@ try {
     case "divide":
       result = divide(a, b);
       break;
+    case "modulo":
+      result = modulo(a, b);
+      break;
+    case "power":
+      result = power(a, b);
+      break;
+    case "squareRoot":
+      result = squareRoot(a);
+      break;
     default:
-      console.error(`Unknown operation: "${operation}". Use add, subtract, multiply, or divide.`);
+      console.error(`Unknown operation: "${operation}". Use add, subtract, multiply, divide, modulo, power, or squareRoot.`);
       process.exit(1);
   }
 
@@ -98,4 +149,4 @@ try {
 }
 } // end require.main === module
 
-module.exports = { add, subtract, multiply, divide };
+module.exports = { add, subtract, multiply, divide, modulo, power, squareRoot };
