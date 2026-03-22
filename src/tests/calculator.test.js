@@ -7,10 +7,16 @@
  *   - multiply : 45 * 2
  *   - divide   : 20 / 5
  *
- * Also covers edge cases: negatives, decimals, zeros, and division-by-zero.
+ * Also covers extended operations:
+ *   - modulo     : 10 % 3
+ *   - power      : 2 ^ 8
+ *   - squareRoot : √25
+ *
+ * Also covers edge cases: negatives, decimals, zeros, division-by-zero,
+ * modulo-by-zero, and square root of negative numbers.
  */
 
-const { add, subtract, multiply, divide } = require("../calculator");
+const { add, subtract, multiply, divide, modulo, power, squareRoot } = require("../calculator");
 
 // ── Addition ──────────────────────────────────────────────────────────────────
 describe("add", () => {
@@ -140,5 +146,104 @@ describe("divide", () => {
 
   test("throws an error when dividing negative number by zero", () => {
     expect(() => divide(-5, 0)).toThrow("Division by zero is not allowed.");
+  });
+});
+
+// ── Modulo ────────────────────────────────────────────────────────────────────
+describe("modulo", () => {
+  test("10 % 3 = 1", () => {
+    expect(modulo(10, 3)).toBe(1);
+  });
+
+  test("positive numbers with no remainder", () => {
+    expect(modulo(9, 3)).toBe(0);
+  });
+
+  test("zero numerator returns zero", () => {
+    expect(modulo(0, 5)).toBe(0);
+  });
+
+  test("negative dividend", () => {
+    expect(modulo(-10, 3)).toBe(-1);
+  });
+
+  test("decimal numbers", () => {
+    expect(modulo(10.5, 3)).toBeCloseTo(1.5);
+  });
+
+  // Edge case: modulo by zero
+  test("throws an error when divisor is zero", () => {
+    expect(() => modulo(10, 0)).toThrow("Division by zero is not allowed.");
+  });
+
+  test("throws an error when dividing negative number by zero", () => {
+    expect(() => modulo(-5, 0)).toThrow("Division by zero is not allowed.");
+  });
+});
+
+// ── Power (Exponentiation) ────────────────────────────────────────────────────
+describe("power", () => {
+  test("2 ^ 8 = 256", () => {
+    expect(power(2, 8)).toBe(256);
+  });
+
+  test("any number to the power of 0 is 1", () => {
+    expect(power(5, 0)).toBe(1);
+  });
+
+  test("any number to the power of 1 is itself", () => {
+    expect(power(7, 1)).toBe(7);
+  });
+
+  test("0 to any positive power is 0", () => {
+    expect(power(0, 5)).toBe(0);
+  });
+
+  test("negative base with even exponent is positive", () => {
+    expect(power(-3, 2)).toBe(9);
+  });
+
+  test("negative base with odd exponent is negative", () => {
+    expect(power(-2, 3)).toBe(-8);
+  });
+
+  test("fractional exponent", () => {
+    expect(power(4, 0.5)).toBeCloseTo(2);
+  });
+});
+
+// ── Square Root ───────────────────────────────────────────────────────────────
+describe("squareRoot", () => {
+  test("√25 = 5", () => {
+    expect(squareRoot(25)).toBe(5);
+  });
+
+  test("√0 = 0", () => {
+    expect(squareRoot(0)).toBe(0);
+  });
+
+  test("√1 = 1", () => {
+    expect(squareRoot(1)).toBe(1);
+  });
+
+  test("√2 is approximately 1.414", () => {
+    expect(squareRoot(2)).toBeCloseTo(1.414, 3);
+  });
+
+  test("√100 = 10", () => {
+    expect(squareRoot(100)).toBe(10);
+  });
+
+  // Edge case: square root of a negative number
+  test("throws an error for a negative number", () => {
+    expect(() => squareRoot(-1)).toThrow(
+      "Square root of a negative number is not allowed."
+    );
+  });
+
+  test("throws an error for any negative number", () => {
+    expect(() => squareRoot(-25)).toThrow(
+      "Square root of a negative number is not allowed."
+    );
   });
 });
