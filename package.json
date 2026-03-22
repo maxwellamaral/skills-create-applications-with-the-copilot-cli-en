@@ -1,0 +1,23 @@
+{
+  "name": "skills-create-applications-with-the-copilot-cli-en",
+  "version": "1.0.0",
+  "description": "<img src=\"https://octodex.github.com/images/Professortocat_v2.png\" align=\"right\" height=\"200px\" />",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxwellamaral/skills-create-applications-with-the-copilot-cli-en.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxwellamaral/skills-create-applications-with-the-copilot-cli-en/issues"
+  },
+  "homepage": "https://github.com/maxwellamaral/skills-create-applications-with-the-copilot-cli-en#readme",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
+}
